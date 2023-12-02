@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Talk to Weacher{% endblock %}
+{% block head %}
+    <!-- <link rel="stylesheet" href="{{ url_for('static',filename='styles/index.css') }}"/> -->
+{% endblock %}
+{% block body %}
+    <h1>Talk to Weacher</h1>
+    <section class="chat">
+        {% for d in dialogs%}
+            <section class={{d.speaker}}>
+                <p>{{d.dialog}}</p>
+            </section>
+        {% endfor %}
+    </section>
+    <section class="form">
+        <form action="/" method="post" id="messageArea">
+            <input type="text" name="ask_weacher" value="" aria-label="Question for weacher">
+            <input type="submit" class="submit" value="Check weather" aria-label="submit"/>
+        </form>
+    </section>
+
+    <script>
+        const myScript = ()=>{
+            console.log('test')
+        }
+        document.querySelector('#messageArea').addEventListener("submit", myScript);
+
+
+
+    </script>
+{% endblock %}

@@ -1,24 +1,31 @@
 from flask import *
 from init.init_db import init_db
-from init.weather_database import LocationDB, db
-from bot.conversation import full_converstaion
+from bot.conversation import full_conversation
 
 
 app = Flask(__name__)
 
 init_db()
-# Get locations list from the LocationDB
-locations = [x.location for x in db.session.query(LocationDB).all()]
 
 
-print('Hello. My name is Weacher. How can I help?')
+continuous_conversation = ''
+temp_location = ''
+asked_weather = False
 
-while True:
+
+@app.route('/askWeacher',  methods=['POST'])
+def ask_weacher():
     try:
-        full_converstaion(locations)
+        input = request.form['ask_weacher']
+        continuous_conversation, asked_weather, location, response = full_conversation(input)
+
+        return response
 
     except(KeyboardInterrupt, EOFError, SystemExit):
-        break
+        raise Exception('Something went wrong. Please refresh browser.')
+        
+
+
 
 
 if __name__ == '__main__':

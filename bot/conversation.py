@@ -24,13 +24,16 @@ def search_geocode(location):
 asked_weather = False
 location = ''
 quit_words = ['quit', 'q', 'close']
+# Get locations list from the LocationDB
+locations = [x.location for x in db.session.query(LocationDB).all()]
+
 
 
 # Initiate converstaion
-def full_converstaion(locations):
+def full_conversation(input, location=None, asked_weather=None, continuous_conversation=False):
 
     # Get input from the user
-    bot_input = input('You: ')
+    bot_input = input
 
     #################
     # Analyze input #
@@ -44,7 +47,7 @@ def full_converstaion(locations):
     # Check if the bot_input has weather related words (weather or forecast or temprature)
     weather_query_keywords = ['weather', 'forecast', 'temprature']
     asked_weather = any(x for x in bot_input_words if x in weather_query_keywords)
-
+ 
 
     #####################################
     # process input and produce output #
@@ -71,7 +74,15 @@ def full_converstaion(locations):
     # If the input does not have weather or location related word
     elif bot_input.lower() not in quit_words:
         bot_output = bot.get_response(bot_input)
-        print(f'Weacher: {bot_output}')
+        response = {'speaker':'Weacher',
+                    'dialog': bot_output}
+
+        continuous_conversation = False
+        asked_weather = False
+        location = []
+
+
+        return continuous_conversation, asked_weather, location, response
 
     else:
         raise Exception('Quitting Converstaion')
