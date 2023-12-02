@@ -10,15 +10,7 @@ trainer = ListTrainer(bot)
 
 greeting = [
     'Hello.',
-    'Hi. Howe can I help?'
+    'Hi. How can I help?'
 ]
 
 trainer.train(greeting)
-
-for location in locations:
-    trainer.train([
-        location,
-        'name of a place',
-        f'What is the weather in {location}?',
-        'weather',
-    ])
