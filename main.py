@@ -14,7 +14,7 @@ from init.init_db import init_db
 
 init_db()
 
-conversation = False
+conversation = ""
 question = ""
 location = ""
 latitude = ""
@@ -46,8 +46,11 @@ def ask_weacher():
                                             weather_type,
                                             date )
         
-        if response_json:
-            return response_json
+        response = jsonify(response_json)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+
+        if response:
+            return response
         else:
             return 'Something went wrong. Try again.'
 
@@ -55,37 +58,6 @@ def ask_weacher():
         raise Exception('Something went wrong. Please refresh browser.')
 
         
-
-# while True:
-#     temp_input = input('You: ')
-#     try:
-#         response_json = full_conversation(temp_input, 
-#                                             conversation, 
-#                                             question, 
-#                                             location, 
-#                                             latitude,
-#                                             longitude,
-#                                             weather_type,
-#                                             date )
-
-#         if response_json:
-#             response = response_json['response']
-#             conversation = response_json['conversation']
-#             question = response_json['question']
-#             location = response_json['location']
-#             latitude = response_json['latitude']
-#             longitude = response_json['longitude']
-#             weather_type = response_json['weather_type']
-#             date = response_json['date']
-
-
-#             print(f'Weacher: {response}')
-#         else:
-#             print('Weacher: Something went wrong. Try again.')
-
-#     except(KeyboardInterrupt, EOFError, SystemExit):
-#         raise Exception('Something went wrong. Please refresh browser.')
-
 
 if __name__ == '__main__':
     app.run()

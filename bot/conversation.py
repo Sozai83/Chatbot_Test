@@ -10,9 +10,7 @@ from __main__ import db
 def search_geocode(location):
     try:
         temp_location = Geocode(location)
-        print(temp_location)
         location, latitude, longitude = temp_location.check_geocode()
-        print(temp_location.location)
 
         return (location, latitude, longitude)
 
@@ -31,13 +29,14 @@ locations = [x.location for x in db.session.query(LocationDB).all()]
 
 # Initiate conversation
 def full_conversation(input, 
-                        conversation=False, 
-                        question=False, 
-                        location=None, 
-                        latitude=None, 
-                        longitude=None, 
-                        weather_type=None, 
-                        date=False):
+                        conversation="", 
+                        question="", 
+                        location="", 
+                        latitude="", 
+                        longitude="", 
+                        weather_type="", 
+                        date=""):
+
 
     if not conversation:
         # Get input from the user
@@ -77,7 +76,7 @@ def full_conversation(input,
                 1: Current Weather
                 2: Weather on a specific date
                 3: 7 days forecast
-                4: Something else
+                4: Something elsey
                 '''
 
             response_json = {
@@ -88,7 +87,8 @@ def full_conversation(input,
                 "latitude" : latitude,
                 "longitude": longitude,
                 "weather_type": "",
-                "date": ""
+                "date": "",
+                "response_type": "string"
             }
 
             return response_json
@@ -110,7 +110,8 @@ def full_conversation(input,
                 "latitude" : "",
                 "longitude": "",
                 "weather_type": "",
-                "date": ""
+                "date": "",
+                "response_type": "string"
             }
 
             return response_json
@@ -125,13 +126,14 @@ def full_conversation(input,
 
             response_json = {
                 "response": response,
-                "conversation": False,
+                "conversation": "",
                 "question": "",
                 "location" : "",
                 "latitude" : "",
                 "longitude": "",
                 "weather_type": "",
-                "date": ""
+                "date": "",
+                "response_type": "string"
             }
 
 
@@ -167,7 +169,8 @@ def full_conversation(input,
                     "latitude" : latitude,
                     "longitude": longitude,
                     "weather_type": "",
-                    "date": ""
+                    "date": "",
+                    "response_type": "string"
                 }
 
                 return response_json
@@ -177,15 +180,16 @@ def full_conversation(input,
         elif (question == "weather_type" or question == "date") and location and latitude and longitude:
             temp_weather_type = "2" if question == "date" else input
             temp_date = input if question == "date" else date
-            print(temp_date)
             temp_weather = Weather(location, latitude, longitude)
 
             if temp_weather_type == '1' or temp_weather_type == '3':
                 response = temp_weather.search_weather(temp_weather_type)
+                reseponse_type = 'weather' if temp_weather_type == '1' else 'forecast'
 
             elif temp_weather_type == '2':
-                if temp_date >= temp_weather.datetime_current_date and temp_date <= temp_weather.datetime_7days_after:
+                if temp_date and temp_date >= temp_weather.datetime_current_date and temp_date <= temp_weather.datetime_7days_after:
                     response = temp_weather.search_weather(temp_weather_type, temp_date)
+                    reseponse_type = 'weather specific date'
 
                 else:
                     if temp_date:
@@ -203,23 +207,26 @@ def full_conversation(input,
                         "latitude" : latitude,
                         "longitude": longitude,
                         "weather_type": "2",
-                        "date": ""
+                        "date": "",
+                        "response_type": "string"
                     }
 
                     return response_json
             
             else:
                 response = 'Please start again. How can I help?'
+                reseponse_type = 'string'
 
             response_json = {
                         "response": response,
-                        "conversation": False,
+                        "conversation": "",
                         "question": "",
                         "location" : "",
                         "latitude" : "",
                         "longitude": "",
                         "weather_type": "",
-                        "date": ""
+                        "date": "",
+                        "response_type": reseponse_type
                     }
 
             return response_json
@@ -228,43 +235,3 @@ def full_conversation(input,
     else:
         raise Exception('Quitting Conversation')
 
-
-# # Initiate conversation related weather
-# def weather_conversation(temp_location=None):
-
-#     if temp_location:
-#         print(f'Weatcher: You mentioned about {temp_location.capitalize()}. Did you want to know about the weather in that location?')
-#     else:
-#         print(f'Weatcher: In which location you want to know the weather of? Please let us konw the location')
-#         temp_location = input ('You: ')
-
-#     try:
-#         location, latitude, longitude = search_geocode(temp_location)
-#     except:
-#         raise Exception('Something went wrong. Please try again.')
-    
-#     print(f'Weatcher: Select number to tell us what you want to know in {location.capitalize()}. \n1: Current Weather, 2: Weather on a specific date, 3: 7 days forecast, 4: Something else')
-#     weather_type = input ('You: ')
-
-#     try:
-#         temp_weather = Weather(location, latitude, longitude)
-#         print(f'Weacher: {temp_weather.search_weather(weather_type)}')
-#         print('Weacher: What else can we help?')
-
-#     except:
-#         raise Exception('Something went wrong. Please try again.')
-
-
-
-
-#         def ask_date():
-#                 print('Weatcher: Which date do you want to know the weather for? \nPlease type the date in YYYY-MM-DD format.')
-#                 date = input('You: ')
-#                 try:
-#                     if date >= self.datetime_current_date and date <= self.datetime_7days_after:
-#                         return self.check_weather_date(date)
-#                     else:
-#                         print(f'Please type date between {self.datetime_current_date} and {self.datetime_7days_after}.')
-#                         return ask_date()
-#                 except:
-#                     raise Exception('The date format should be YYYY-MM-DD')

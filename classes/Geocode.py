@@ -26,8 +26,6 @@ class Geocode:
             self.longitude = temp_location.longitude
             self.location = temp_location.location
 
-            print(f'Got record from the DB. {self.location}')
-
             return self.location, self.latitude, self.longitude
         
         # Otherwise, retrieve latitude and longitude using google geocode API
@@ -41,8 +39,6 @@ class Geocode:
                 self.longitude = result['geometry']['location']['lng']
                 self.location = result['address_components'][0]['short_name']
                 self.country = result['address_components'][-1]['short_name']
-
-                print(f'Got record from the API. {self.location}')
 
                 # Add location data in database
                 add_location(self.location.lower(), self.latitude, self.longitude, self.country)
