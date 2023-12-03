@@ -10,17 +10,16 @@ from datetime import *
 def search_geocode(location):
     try:
         temp_location = Geocode(location)
-        temp_geolocation = temp_location.check_geocode()
+        print(temp_location)
+        location, latitude, longitude = temp_location.check_geocode()
+        print(temp_location.location)
 
-        return (temp_location.location, temp_location.latitude, temp_location.longitude)
+        return (location, latitude, longitude)
 
     except:
-        print('Weacher: The location could not be found. Please try again by typing location or type "quit" to start over.')
-        temp_input_location = input("You: ")
-        if temp_input_location != 'quit':
-            return search_geocode(temp_input_location)
+        raise Exception()
 
-
+        
 asked_weather = False
 location = ''
 quit_words = ['quit', 'q', 'close']
