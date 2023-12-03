@@ -1,8 +1,8 @@
 import requests, os, json
 import pandas as pd
 import numpy as np
-from init.weather_database import add_location, db, LocationDB
-
+from init.weather_database import add_location, LocationDB
+from __main__ import db
 
 
 # API Key for geocode_url

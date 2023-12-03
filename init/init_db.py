@@ -1,4 +1,5 @@
-from init.weather_database import db, LocationDB, add_weather, add_location, create_db
+from init.weather_database import LocationDB, add_weather, add_location, create_db
+from __main__ import db
 from init.locations import locations
 from classes.Weather import Weather
 

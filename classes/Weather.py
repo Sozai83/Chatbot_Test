@@ -2,8 +2,8 @@ import requests, os, json
 from datetime import *
 import pandas as pd
 import numpy as np
-from init.weather_database import add_weather, db, WeatherDB
-
+from init.weather_database import add_weather, WeatherDB
+from __main__ import db
 
 # API Key for weather_url and weather_forecast_url
 weather_api_key = os.environ.get('OpenWeather_API_key')

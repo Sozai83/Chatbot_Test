@@ -3,9 +3,9 @@ from flask import *
 import re
 from classes.Geocode import Geocode
 from classes.Weather import Weather
-from init.weather_database import LocationDB, db
-from init.init_db import init_db
+from init.weather_database import LocationDB
 from datetime import *
+from __main__ import db
 
 def search_geocode(location):
     try:

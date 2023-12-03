@@ -4,12 +4,7 @@ from sqlalchemy.sql import text
 import pandas as pd
 import numpy as np
 from datetime import datetime
-
-app = Flask(__name__)
-db_name = r'../database/weather_app.db' #replace with your file path
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_name
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-db = SQLAlchemy(app)
+from __main__ import db, app
 
 
 class WeatherDB(db.Model):

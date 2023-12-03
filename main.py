@@ -1,9 +1,16 @@
 from flask import *
-from init.init_db import init_db
-from bot.conversation import full_conversation
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import text
 
 
 app = Flask(__name__)
+db_name = r'./database/weather_app.db' #replace with your file path
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_name
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+db = SQLAlchemy(app)
+
+from init.init_db import init_db
 
 init_db()
 
@@ -14,6 +21,8 @@ latitude = ""
 longitude = ""
 weather_type = ""
 date = ""
+
+from bot.conversation import full_conversation
 
 
 @app.route('/askWeacher', methods=['POST'])
