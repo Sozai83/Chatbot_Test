@@ -37,8 +37,8 @@ class Weather:
             # Condition location + timestamp = within 30 min + date = today + pop is null
             temp_weather = db.session.query(WeatherDB).filter(
                 WeatherDB.location==self.location.lower(),
-                WeatherDB.created_timestamp >= self.datetime_within_30mis,
-                WeatherDB.date == self.current_date,
+                WeatherDB.created_timestamp >= self.datetime_within_30mins,
+                WeatherDB.date == self.datetime_current_date,
                 WeatherDB.pop == None
             ).first()
 
@@ -267,30 +267,19 @@ class Weather:
 
 
 
-    def search_weather(self, weather_type):
-        def ask_date():
-                print('Weatcher: Which date do you want to know the weather for? \nPlease type the date in YYYY-MM-DD format.')
-                date = input('You: ')
-                try:
-                    if date >= self.datetime_current_date and date <= self.datetime_7days_after:
-                        return self.check_weather_date(date)
-                    else:
-                        print(f'Please type date between {self.datetime_current_date} and {self.datetime_7days_after}.')
-                        return ask_date()
-                except:
-                    raise Exception('The date format should be YYYY-MM-DD')
+    def search_weather(self, weather_type, date=None):
+        temp_weather_type = int(weather_type)
 
-
-        if weather_type == '1':
+        if temp_weather_type == 1:
             return self.check_current_weather()
 
-        elif weather_type == '2':
-            return ask_date()
+        elif temp_weather_type == 2 and date:
+            return self.check_weather_date(date)
 
-        elif weather_type == '3':
+        elif temp_weather_type == 3:
             return self.check_weather_forecast()
 
-        elif weather_type == '4':
+        elif temp_weather_type == 4:
             return f'Weacher: As you don\'t need to know the weather in {self.location}, let\'s talks something else.'
         
         else:
