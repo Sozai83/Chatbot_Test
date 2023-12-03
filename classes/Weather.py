@@ -51,15 +51,15 @@ class Weather:
             self.cur_date = temp_weather.date
             self.icon = temp_weather.icon
 
-            return(
-                self.cur_weather, 
-                self.cur_temp, 
-                self.cur_max_temp, 
-                self.cur_min_temp, 
-                self.cur_humidity, 
-                self.cur_date,
-                self.icon
-            )
+            return({
+                "cur_weather": self.cur_weather, 
+                "cur_temp": self.cur_temp, 
+                "cur_max_temp": self.cur_max_temp, 
+                "cur_min_temp": self.cur_min_temp, 
+                "cur_humidity": self.cur_humidity, 
+                "cur_date": self.cur_date,
+                "icon": self.icon
+            })
         
         except:
             # If not, get data using Current weather API
@@ -87,15 +87,15 @@ class Weather:
                             icon = self.icon
                             )
 
-                return(
-                    self.cur_weather, 
-                    self.cur_temp, 
-                    self.cur_max_temp, 
-                    self.cur_min_temp, 
-                    self.cur_humidity, 
-                    self.cur_date,
-                    self.icon
-                )
+                return({
+                    "cur_weather": self.cur_weather, 
+                    "cur_temp": self.cur_temp, 
+                    "cur_max_temp": self.cur_max_temp, 
+                    "cur_min_temp": self.cur_min_temp, 
+                    "cur_humidity": self.cur_humidity, 
+                    "cur_date": self.cur_date,
+                    "icon": self.icon
+                })
                 
             else:
                 raise Exception (f'Filed to retrieve current weather. Please try again. Error:{resp.status_code}')
@@ -119,16 +119,17 @@ class Weather:
             self.cur_min_temp = temp_weather.min_temp
             self.cur_date = temp_weather.date
             self.icon = temp_weather.icon
+            self.pop = temp_weather.pop
 
-            return(
-                self.cur_weather, 
-                self.cur_temp, 
-                self.cur_max_temp, 
-                self.cur_min_temp, 
-                self.cur_humidity, 
-                self.cur_date,
-                self.icon
-            )
+            return({
+                "cur_weather": self.cur_weather, 
+                "cur_max_temp": self.cur_max_temp, 
+                "cur_min_temp": self.cur_min_temp, 
+                "cur_humidity": self.cur_humidity, 
+                "cur_date": self.cur_date,
+                "icon": self.icon,
+                "pop": self.pop
+            })
         
         
         # If not, get data 
@@ -173,15 +174,15 @@ class Weather:
                     if date == temp_weather_forecast['date']:
                         temp_weather_for_date = temp_weather_forecast
 
-
-                return(
-                    temp_weather_for_date['date'], 
-                    temp_weather_for_date['max_temp'], 
-                    temp_weather_for_date['min_temp'], 
-                    temp_weather_for_date['humidity'], 
-                    temp_weather_for_date['date'],
-                    temp_weather_for_date['icon']
-                )
+                return({
+                    "cur_weather": temp_weather_for_date['weather'], 
+                    "cur_max_temp": temp_weather_for_date['max_temp'], 
+                    "cur_min_temp": temp_weather_for_date['min_temp'], 
+                    "cur_humidity": temp_weather_for_date['humidity'], 
+                    "cur_date": temp_weather_for_date['date'],
+                    "icon": temp_weather_for_date['icon'],
+                    "pop": temp_weather_for_date['pop']
+                })
 
             else:
                 raise Exception (f'Filed to retrieve current weather. Please try again. Error:{resp.status_code}')
@@ -209,8 +210,8 @@ class Weather:
                         {
                             'weather': temp_weather.desc,
                             'date': temp_weather.date, 
-                            'temp_min': temp_weather.min_temp,
-                            'temp_max': temp_weather.max_temp,
+                            'max_temp': temp_weather.min_temp,
+                            'max_temp': temp_weather.max_temp,
                             'humidity': temp_weather.humidity,
                             'icon': temp_weather.icon,
                             'pop': temp_weather.pop
