@@ -28,7 +28,7 @@ from bot.conversation import full_conversation
 @app.route('/askWeacher', methods=['POST'])
 def ask_weacher():
     try:
-        temp_input = name = request.args.get('input')
+        temp_input = request.args.get('input') if request.args.get('input') else ""
         conversation = request.args.get('conversation') if request.args.get('conversation') else ""
         question = request.args.get('question') if request.args.get('question') else ""
         location = request.args.get('location') if request.args.get('location') else ""

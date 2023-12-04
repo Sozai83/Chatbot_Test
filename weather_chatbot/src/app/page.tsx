@@ -18,7 +18,7 @@ export default function Home() {
   const [responseType, setResposneType] = useState('')
 
 
-  let temp_response, weather_desc, cur_temp, max_temp, min_temp, cur_humidity, temp_date, icon, pop, responseJSX
+  let temp_response, weather_desc, cur_temp: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.PromiseLikeOfReactNode | null | undefined, max_temp, min_temp, cur_humidity, temp_date, icon, pop, responseJSX: string | number | React.JSX.Element
 
   const getTimestamp = () => new Date().toDateString()
 
@@ -64,7 +64,19 @@ export default function Home() {
 
 
       if (test.response_type == 'string') {
-        setReseponse(test.response)
+        temp_response = test.response.split('<br>')
+        responseJSX = (
+          <>
+            {temp_response.map((resp: any) => {
+              return (
+                <>
+                  {resp}<br />
+                </>)
+            })}
+          </>
+        )
+
+        setReseponse(responseJSX)
 
 
       } else if (test.response_type == 'weather') {
@@ -79,15 +91,14 @@ export default function Home() {
 
         responseJSX = (
           <>
-            <p>Weather in {location ? location : ''} on {temp_date}</p>
             <img src={icon} />
-            <p>Description: {weather_desc}</p>
-            <p>Current temprature: {cur_temp}</p>
-            <p>Max temperature: {max_temp}</p>
-            <p>Min temperature: {min_temp}</p>
-            <p>Humidity: {cur_humidity}</p>
+            <p>Weather in {location ? location : ''} on {temp_date}<br />
+              Description: {weather_desc}<br />
+              Current temprature: {cur_temp}<br />
+              Max temperature: {max_temp}<br />
+              Min temperature: {min_temp}<br />
+              Humidity: {cur_humidity}</p >
           </>
-
         )
 
         setReseponse(responseJSX)
@@ -105,15 +116,11 @@ export default function Home() {
 
         responseJSX = (
           <>
-            <p>Weather in {location ? location : ''} on {temp_date}</p>
             <img src={icon} />
-            <p>Description: {weather_desc}</p>
-            <p>Max temperature: {max_temp}</p>
-            <p>Min temperature: {min_temp}</p>
-            <p>Humidity: {cur_humidity}</p>
-            <p>Precipitation: {pop} %</p>
+            <p>Weather in {location ? location : ''} on {temp_date} is {weather_desc}<br />
+              The maximum temprature will be {max_temp} ℃, and the loweset will be {min_temp} ℃.<br />
+              It is {cur_humidity >= 60 ? 'humid' : cur_humidity >= 30 ? 'normal' : 'dry'} and the chance of rain is {pop * 100} %.</p>
           </>
-
         )
 
         setReseponse(responseJSX)
@@ -160,16 +167,16 @@ export default function Home() {
       <div className={styles.description}>
         <h1>Talk to Weacher</h1>
         <section className="chat">
-          <div className="weacher" >
             {dialogs.map((d: { speaker: string; dialog: string; timestamp: string }) => {
               return (
-                <div className={d.speaker.toLowerCase()}>
-                  <span className="speaker">{d.speaker}:</span>
-                  <span className="timestamp">{d.timestamp}</span>
+                <div className={'chat_dialog ' + d.speaker.toLowerCase()}>
+                  <div className="speaker">
+                    <span className="speaker">{d.speaker}:</span>
+                    <span className="timestamp">{d.timestamp}</span>
+                  </div>
                   <p>{d.dialog}</p>
                 </div>)
             })}
-          </div>
         </section>
         <section className="form" onSubmit={askWeacher}>
           <form action="/askWeacher" method="post" id="messageArea">

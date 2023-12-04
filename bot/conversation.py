@@ -31,12 +31,12 @@ def response_generator(response, conversation="",question="",location="",latitud
 
     if response == 'ask_weather':
         temp_response = f'''
-            You mentioned about {location.capitalize()}. Did you want to know about the weather in that location?
-            Select number to tell us what you want to know in {location.capitalize()}.
-            1: Current Weather
-            2: Weather on a specific date
-            3: 7 days forecast
-            4: Something elsey
+            You mentioned about {location.capitalize()}. Did you want to know about the weather in that location?<br>
+            Select number to tell us what you want to know in {location.capitalize()}.<br>
+            1: Current Weather<br>
+            2: Weather on a specific date<br>
+            3: 7 days forecast<br>
+            4: Something elsey<br>
             '''
         question = "weather_type"
         conversation = True
@@ -44,7 +44,8 @@ def response_generator(response, conversation="",question="",location="",latitud
 
     elif response == 'ask_location':
         temp_response = f'''
-            In which location you want to know the weather of? Please let us konw the location.
+            In which location you want to know the weather of?<br>
+            Please let us konw the location.
             '''
 
         question = "location"
@@ -61,7 +62,7 @@ def response_generator(response, conversation="",question="",location="",latitud
             temp_response = f'Please type date between {current_date} and {date_7days}.'
         else:
             temp_response = '''
-                Weatcher: Which date do you want to know the weather for?
+                Weatcher: Which date do you want to know the weather for?<br>
                 Please type the date in YYYY-MM-DD format.
             '''
 
@@ -128,12 +129,15 @@ def full_conversation(input,
             # Check if the location is valid
             try:
                 location, latitude, longitude = search_geocode(temp_location[0])
+                # Check if they want to know the weather in the location
+                response_json = response_generator('ask_weather', location=location, latitude=latitude, longitude=longitude)
+
             except:
-                raise Exception(f'Geocode could not be retrieved for {temp_location[0]}. Please try again.')
+                # Check if they want to know the weather in the location
+                response_json = response_generator(f'We could not find {temp_location}. Please try somewhere else', 
+                                                    question = "location", conversation = True, response_type = 'string')
 
-            # Check if they want to know the weather in the location
-            response_json = response_generator('ask_weather', location=location, latitude=latitude, longitude=longitude)
-
+            
             return response_json
             # weather_conversation(temp_location=location[0])
 
@@ -144,8 +148,6 @@ def full_conversation(input,
             response_json = response_generator('ask_location')
 
             return response_json
-
-            # weather_conversation()
 
 
         # If the input does not have weather or location related word
@@ -165,16 +167,18 @@ def full_conversation(input,
 
             try:
                 location, latitude, longitude = search_geocode(temp_location)
-            except:
-                raise Exception(f'Geocode could not be retrieved for {temp_location}. Please try again.')
-            
-            if location and latitude and longitude:
                 # Check if they want to know the weather in the location
                 response_json = response_generator('ask_weather', location=location, latitude=latitude, longitude=longitude)
+            except:
+                if temp_location != 'quit':
+                    response_json = response_generator(f'We could not find {temp_location}. Please try somewhere else.', 
+                                                    question = "location", conversation = True, response_type = 'string')
+                
+                else:
+                    response_json = response_generator('Please start again. How can I help?')
 
-                return response_json
-            # weather_conversation(temp_location=location[0])
-            # temp_weather = Weather(location, latitude, longitude)
+            return response_json
+
         
         elif (question == "weather_type" or question == "date") and location and latitude and longitude:
             temp_weather_type = "2" if question == "date" else input

@@ -7,11 +7,11 @@ bot = ChatBot(
     storage_adapter='chatterbot.storage.SQLStorageAdapter',
     logic_adapters=[
         'chatterbot.logic.MathematicalEvaluation',
-        # {
-        #     'import_path': 'cool_adapter.AskWeather',
-        #     'default_response ': 'I am sorry, I do not understand. Please contact XXX for further assistance.',
+        {
+            'import_path': 'bot.cool_adapter.AskWeather',
+            'default_response ': 'I am sorry, I do not understand. Please contact XXX for further assistance.',
             
-        # },
+        },
         {
             'import_path': 'chatterbot.logic.BestMatch',
             'default_response ': 'I am sorry, I do not understand. Please contact XXX for further assistance.',
