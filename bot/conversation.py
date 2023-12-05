@@ -115,7 +115,7 @@ def full_conversation(input,
         temp_location = [x for x in bot_input_words if x in locations]
 
         # Check if the bot_input has weather related words (weather or forecast or temprature)
-        weather_query_keywords = ['weather', 'forecast', 'temprature']
+        weather_query_keywords = ['weather', 'forecast', 'temperature']
         asked_weather = any(x for x in bot_input_words if x in weather_query_keywords)
     
 

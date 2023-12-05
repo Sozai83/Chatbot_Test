@@ -11,8 +11,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 from init.init_db import init_db
-
 init_db()
+
 
 conversation = ""
 question = ""
@@ -22,9 +22,10 @@ longitude = ""
 weather_type = ""
 date = ""
 
+from mistyping import train_mistype
+train_mistype()
+
 from bot.conversation import full_conversation
-
-
 @app.route('/askWeacher', methods=['POST'])
 def ask_weacher():
     try:
@@ -57,7 +58,7 @@ def ask_weacher():
     except(KeyboardInterrupt, EOFError, SystemExit):
         raise Exception('Something went wrong. Please refresh browser.')
 
-        
+       
 
 if __name__ == '__main__':
     app.run()
