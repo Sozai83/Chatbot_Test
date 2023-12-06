@@ -45,7 +45,7 @@ def response_generator(response, conversation="",question="",location="",latitud
     elif response == 'ask_location':
         temp_response = f'''
             In which location you want to know the weather of?<br>
-            Please let us konw the location.
+            Please tell us the location.
             '''
 
         question = "location"
@@ -61,9 +61,10 @@ def response_generator(response, conversation="",question="",location="",latitud
         if date:
             temp_response = f'Please type date between {current_date} and {date_7days}.'
         else:
-            temp_response = '''
+            temp_response = f'''
                 Weatcher: Which date do you want to know the weather for?<br>
-                Please type the date in YYYY-MM-DD format.
+                Please type the date in YYYY-MM-DD format.<br>
+                Please type date between {current_date} and {date_7days}.
             '''
 
     else:
