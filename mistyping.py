@@ -17,8 +17,13 @@ for weather_mistype in weather_mistypes:
         Did you mean weather?<br>
         Hint: What is the weather in London?
     '''
+    question = f'what is the {weather_mistype} in'
+    question2 = f'what\'s the {weather_mistype} in'
+    question3 = f'{weather_mistype} in'
 
-    convo_weather_mistypes.extend((weather_mistype, response))
+    convo_weather_mistypes.extend((weather_mistype, response,
+                                    question,response,question2,
+                                    response,question3,response))
 
 
 for temperature_mistype in temperature_mistypes:
@@ -27,7 +32,13 @@ for temperature_mistype in temperature_mistypes:
         Hint: What is the temperature in London?
     '''
 
-    convo_weather_mistypes.extend((temperature_mistype, response))
+    question = f'what is the {temperature_mistype} in'
+    question2 = f'what\'s the {temperature_mistype} in'
+    question3 = f'{temperature_mistype} in'
+
+    convo_temperature_mistypes.extend((temperature_mistype, response,
+                                    question,response,question2,
+                                    response,question3,response))
 
 
 for forecast_mistype in forecast_mistypes:
@@ -35,8 +46,13 @@ for forecast_mistype in forecast_mistypes:
         Did you mean temperature?<br>
         Hint: What is the forecast in London this week?
     '''
+    question = f'what is the {forecast_mistype} in'
+    question2 = f'what\'s the {forecast_mistype} in'
+    question3 = f'{forecast_mistype} in'
 
-    convo_weather_mistypes.extend((forecast_mistype, response))
+    convo_forecast_mistypes.extend((forecast_mistype, response,
+                                    question,response,question2,
+                                    response,question3,response))
 
 def train_mistype():
     trainer.train(convo_weather_mistypes)

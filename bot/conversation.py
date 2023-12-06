@@ -36,7 +36,7 @@ def response_generator(response, conversation="",question="",location="",latitud
             1: Current Weather<br>
             2: Weather on a specific date<br>
             3: 7 days forecast<br>
-            4: Something elsey<br>
+            4: Something else<br>
             '''
         question = "weather_type"
         conversation = True
