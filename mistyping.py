@@ -6,6 +6,7 @@ from bot.bot import bot
 weather_mistypes = ['wether','weater', 'wheather', 'weaher', 'weathr']
 temperature_mistypes = ['temperture', 'temprature', 'temperaure', 'temerature', 'temperaturee', 'temprature']
 forecast_mistypes = ['forcast', 'forecat', 'forescast', 'forecsat', 'forcaset', 'forrecast', 'forecaat']
+recommend_mistypes = ['reccomend', 'recomend', 'recommned', 'recommed','recommmend']
 
 convo_weather_mistypes = []
 convo_temperature_mistypes = []
@@ -54,7 +55,24 @@ for forecast_mistype in forecast_mistypes:
                                     question,response,question2,
                                     response,question3,response))
 
+for recommend_mistype in recommend_mistypes:
+    response = '''
+        Would you like me to recommend a place for travel in the itinerary?<br>
+        I can check weather for each location for today or tomorrow.<br>
+        Hint: Where do you recommend to go today?
+    '''
+
+    question = f'Where do you {recommend_mistype}'
+    question2 = f'Which location do you {recommend_mistype}'
+    question3 = f'What do you {recommend_mistype}'
+
+    convo_forecast_mistypes.extend((recommend_mistype, response,
+                                    question,response,question2,
+                                    response,question3,response))
+
+
 def train_mistype():
     trainer.train(convo_weather_mistypes)
     trainer.train(convo_temperature_mistypes)
     trainer.train(convo_forecast_mistypes)
+    trainer.train(recommend_mistype)
