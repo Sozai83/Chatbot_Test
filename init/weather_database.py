@@ -11,6 +11,7 @@ class WeatherDB(db.Model):
     __tablename__ = 'weather'
     weather_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     location = db.Column(db.Text)
+    itinerary = db.Column(db.Boolean, nullable=True)
     created_timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date = db.Column(db.Text, nullable=False)
     desc = db.Column(db.Text, nullable=False)
@@ -34,7 +35,7 @@ def create_db():
     with app.app_context():
         db.create_all()
 
-def add_weather(location, date, desc, min_temp, max_temp, humidity, icon, cur_temp=None, pop=None):
+def add_weather(location, date, desc, min_temp, max_temp, humidity, icon, itinerary=False, cur_temp=None, pop=None):
     
     temp_weather = WeatherDB(
         location = location,
@@ -45,7 +46,8 @@ def add_weather(location, date, desc, min_temp, max_temp, humidity, icon, cur_te
         max_temp = max_temp,
         humidity = humidity,
         icon = icon,
-        pop = pop
+        pop = pop,
+        itinerary = itinerary
     )
 
     db.session.add(temp_weather)

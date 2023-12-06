@@ -188,7 +188,7 @@ class Weather:
                 raise Exception (f'Filed to retrieve current weather. Please try again. Error:{resp.status_code}')
 
     # Get 8 days weather forecast for the location
-    def check_weather_forecast(self):
+    def check_weather_forecast(self, temp_itinerary=False):
 
         try:
             # check weather in DB for the location/date
@@ -210,7 +210,7 @@ class Weather:
                         {
                             'weather': temp_weather.desc,
                             'date': temp_weather.date, 
-                            'max_temp': temp_weather.min_temp,
+                            'min_temp': temp_weather.min_temp,
                             'max_temp': temp_weather.max_temp,
                             'humidity': temp_weather.humidity,
                             'icon': temp_weather.icon,
@@ -243,6 +243,7 @@ class Weather:
 
                     self.weather_next_8days = list(weather_next_8days)
                     
+                    print('add weather')
                     # Store the data in DB
                     for temp_weather_forecast in self.weather_next_8days:
 
@@ -254,8 +255,10 @@ class Weather:
                             max_temp = temp_weather_forecast['max_temp'],
                             humidity = temp_weather_forecast['humidity'],
                             icon = temp_weather_forecast['icon'],
-                            pop = temp_weather_forecast['pop']
+                            pop = temp_weather_forecast['pop'],
+                            itinerary = temp_itinerary
                             )
+
 
                     return self.weather_next_8days
                 

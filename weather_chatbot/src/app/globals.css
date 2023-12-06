@@ -54,6 +54,11 @@ a {
   background-color: rgb(82, 145, 101);
 }
 
+h2{
+  display: flex;
+  align-items: center;
+}
+
 .form{
   margin: 10px auto;
   align-items: center;

@@ -38,11 +38,7 @@ for forecast_mistype in forecast_mistypes:
 
     convo_weather_mistypes.extend((forecast_mistype, response))
 
-def train_mistype_temp():
+def train_mistype():
     trainer.train(convo_weather_mistypes)
     trainer.train(convo_temperature_mistypes)
     trainer.train(convo_forecast_mistypes)
-
-
-def train_mistype():
-    return train_mistype_temp()

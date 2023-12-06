@@ -8,7 +8,7 @@ bot = ChatBot(
     logic_adapters=[
         'chatterbot.logic.MathematicalEvaluation',
         {
-            'import_path': 'bot.cool_adapter.AskWeather',
+            'import_path': 'bot.recommendation_adapter.AskWeather',
             'default_response ': 'I am sorry, I do not understand. Please contact XXX for further assistance.',
             
         },

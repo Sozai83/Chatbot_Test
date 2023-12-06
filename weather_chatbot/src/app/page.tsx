@@ -91,13 +91,11 @@ export default function Home() {
 
         responseJSX = (
           <>
-            <img src={icon} />
-            <p>Weather in {location ? location : ''} on {temp_date}<br />
-              Description: {weather_desc}<br />
-              Current temprature: {cur_temp}<br />
-              Max temperature: {max_temp}<br />
-              Min temperature: {min_temp}<br />
-              Humidity: {cur_humidity}</p >
+            <h2>{temp_date}<img src={icon} /></h2>
+            <h3>{location ? location : ''}</h3>
+            <p>It is currently {weather_desc} and {cur_temp} ℃.<br />
+              The maximum temprature will be {max_temp} ℃, and the loweset will be {min_temp} ℃.<br />
+              It is {cur_humidity >= 60 ? 'humid' : cur_humidity >= 30 ? 'normal' : 'dry'}</p >
           </>
         )
 
@@ -116,7 +114,8 @@ export default function Home() {
 
         responseJSX = (
           <>
-            <img src={icon} />
+            <h2>{temp_date}<img src={icon} /></h2>
+            <h3>{location ? location : ''}</h3>
             <p>Weather in {location ? location : ''} on {temp_date} is {weather_desc}<br />
               The maximum temprature will be {max_temp} ℃, and the loweset will be {min_temp} ℃.<br />
               It is {cur_humidity >= 60 ? 'humid' : cur_humidity >= 30 ? 'normal' : 'dry'} and the chance of rain is {pop * 100} %.</p>
@@ -128,18 +127,20 @@ export default function Home() {
       } else {
         temp_response = test.response
         console.log(temp_response)
-        responseJSX = temp_response.map((resp: any) => {
+        responseJSX = (<>
+          <h2>Weekly forecast</h2>
+          <h3>{location ? location : ''}</h3>
+          {temp_response.map((resp: any) => {
           return (
             <>
-              <p>Weather in {location ? location : ''} on {resp.date}</p>
-              <img src={'https://openweathermap.org/img/wn/' + resp.icon + '.png'} />
-              <p>Description: {resp.weather}</p>
-              <p>Max temperature: {resp.max_temp}</p>
-              <p>Min temperature: {resp.min_temp}</p>
-              <p>Humidity: {resp.humidity}</p>
-              <p>Precipitation: {resp.pop * 100} %</p>
+              <p><b>{resp.date}</b>
+                <img src={'https://openweathermap.org/img/wn/' + resp.icon + '.png'} /><br />
+                The maximum temprature will be {resp.max_temp} ℃, and the loweset will be {resp.min_temp} ℃.<br />
+                It will be {resp.cur_humidity >= 60 ? 'humid' : resp.cur_humidity >= 30 ? 'normal' : 'dry'} and the chance of rain is {resp.pop * 100} %.</p >
             </>)
-        })
+          })
+          }
+        </>)
 
         setReseponse(responseJSX)
 

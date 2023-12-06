@@ -21,8 +21,7 @@ def init_db():
 
             # Add weather in location to DB
             temp_weather = Weather(location, locations[location]['lat'], locations[location]['lng'])
-            temp_weather.check_weather_forecast()
-            
+            temp_weather.check_weather_forecast(temp_itinerary=True)
 
         except:
             continue
