@@ -26,7 +26,20 @@ def search_geocode(location):
 
 
 
-def response_generator(response, conversation="",question="",location="",latitude="",longitude="",weather_type="",date="",response_type="", current_date="", date_7days=""):
+def response_generator(response, 
+                        conversation="",
+                        question="",
+                        location="",
+                        latitude="",
+                        longitude="",
+                        weather_type="",
+                        date="",
+                        response_type="", 
+                        current_date="", 
+                        date_7days="",
+                        multilocation=""):
+
+
     temp_response = ''
 
     if response == 'ask_weather':
@@ -38,6 +51,28 @@ def response_generator(response, conversation="",question="",location="",latitud
             3: 7 days forecast<br>
             4: Something else<br>
             '''
+        question = "weather_type"
+        conversation = True
+        temp_response_type = 'string'
+
+    elif response == 'ask_weather_multilocation':
+        locations = ''
+        for id, loc in enumerate(location):
+            if id == 0:
+                locations += loc.capitalize()
+            else:
+                locations += f' and {loc.capitalize()}'
+
+        temp_response = f'''
+            You mentioned about {locations}.<br>
+            Did you want to know about the weather in those locations?<br>
+            Select number to tell us what you want to know in {locations}.<br>
+            1: Today's weather<br>
+            2: Tomorrow's weather<br>
+            3: 7 days forecast<br>
+            4: Something else<br>
+            '''
+
         question = "weather_type"
         conversation = True
         temp_response_type = 'string'
@@ -82,7 +117,8 @@ def response_generator(response, conversation="",question="",location="",latitud
         "longitude": longitude,
         "weather_type": weather_type,
         "date": date,
-        "response_type": temp_response_type
+        "response_type": temp_response_type,
+        "multilocation": multilocation
     }
 
     return temp_response_json
@@ -92,19 +128,20 @@ def response_generator(response, conversation="",question="",location="",latitud
 
 
 # Initiate conversation
-def full_conversation(input, 
+def full_conversation(temp_input, 
                         conversation="", 
                         question="", 
                         location="", 
                         latitude="", 
                         longitude="", 
                         weather_type="", 
-                        date=""):
+                        date="",
+                        multilocation=""):
 
 
     if not conversation:
         # Get input from the user
-        bot_input = input
+        bot_input = temp_input
 
         #################
         # Analyze input #
@@ -113,7 +150,7 @@ def full_conversation(input,
         bot_input_words = re.sub('[.,;!?]','', bot_input.lower()).split()
 
         # Check if the location in the locations dictionary is in the bot_input
-        temp_location = [x for x in bot_input_words if x in locations]
+        temp_location = [x for x in locations if x in bot_input.lower()]
 
         # Check if the bot_input has weather related words (weather or forecast or temprature)
         weather_query_keywords = ['weather', 'forecast', 'temperature']
@@ -123,23 +160,34 @@ def full_conversation(input,
         #####################################
         # process input and produce output #
         ####################################
-
+    
         # If location list is not empty
         if len(temp_location) > 0:
+            temp_location_list = []
+            for temp in temp_location:
+                # Check if the location is valid
+                try:
+                    location, latitude, longitude = search_geocode(temp)
+                    temp_location_list.append(location)
 
-            # Check if the location is valid
-            try:
-                location, latitude, longitude = search_geocode(temp_location[0])
-                # Check if they want to know the weather in the location
+                # If one of the locations failed to retrieve the location, latitude and longitude get back to the user and ask to try again.ss
+                except:
+                    # Check if they want to know the weather in the location
+                    response_json = response_generator(f'We could not find {temp}. Please try again')
+                    
+                    return response_json
+            
+            if len(temp_location_list) > 1:
+                response_json = response_generator('ask_weather_multilocation', location=temp_location_list, multilocation=True)
+
+            elif len(temp_location_list) == 1:
                 response_json = response_generator('ask_weather', location=location, latitude=latitude, longitude=longitude)
-
-            except:
-                # Check if they want to know the weather in the location
-                response_json = response_generator(f'We could not find {temp_location}. Please try somewhere else', 
-                                                    question = "location", conversation = True, response_type = 'string')
-
+            
+            else:
+                response_json = response_generator(f'We could not find {temp}. Please try again')
             
             return response_json
+
             # weather_conversation(temp_location=location[0])
 
 
@@ -164,7 +212,7 @@ def full_conversation(input,
     elif conversation:
         if question == "location":
             # Check if the location is valid
-            temp_location = input
+            temp_location = temp_input
 
             try:
                 location, latitude, longitude = search_geocode(temp_location)
@@ -179,11 +227,62 @@ def full_conversation(input,
                     response_json = response_generator('Please start again. How can I help?')
 
             return response_json
+        
+        elif question == "weather_type" and multilocation and location:
+            temp_weather_type = temp_input
+            temp_locations =  re.sub(' [.,;!?]','', location.lower()).split(',')
+
+            response = []
+
+            if temp_weather_type == "1" or temp_weather_type == "3":
+                for temp_location in temp_locations:
+                    try:
+                        location, latitude, longitude = search_geocode(temp_location)
+                        temp_weather = Weather(location, latitude, longitude)
+                        temp_response = temp_weather.search_weather(temp_weather_type)
+                        if temp_weather_type == "1":
+                           temp_response["location"] = location.capitalize()
+                        response.append(temp_response)
+                    except:
+                        response_json = response_generator('Something went wrong. Please try again')
+                        return response_json
+                    
+                response_type = 'multiWeatherToday' if temp_weather_type == "1" else "multiForecast"
+                response_json = response_generator(response, response_type=response_type)
+                
+                return response_json
+            
+            elif temp_weather_type == "2":
+                temp_tomorrow = (datetime.utcnow() + timedelta(days=1)).strftime('%Y-%m-%d')
+
+                for temp_location in temp_locations:
+                    try:
+                        location, latitude, longitude = search_geocode(temp_location)
+                        temp_weather = Weather(location, latitude, longitude)
+                        temp_response = temp_weather.search_weather('2', temp_tomorrow)
+                        temp_response['location'] = location.capitalize()
+                        response.append(temp_response)
+                    except:
+                        response_json = response_generator('Something went wrong. Please try again')
+                        return response_json
+                
+                response_type = "multiWeatherTomorrow"
+                response_json = response_generator(response, response_type=response_type)
+                
+                return response_json
+
+
+            else:
+                response = 'Please start again. How can I help?'
+                response_json = response_generator(response)
+
+                return response_json
+                
 
         
         elif (question == "weather_type" or question == "date") and location and latitude and longitude:
-            temp_weather_type = "2" if question == "date" else input
-            temp_date = input if question == "date" else date
+            temp_weather_type = "2" if question == "date" else temp_input
+            temp_date = temp_input if question == "date" else date
             temp_weather = Weather(location, latitude, longitude)
 
             if temp_weather_type == '1' or temp_weather_type == '3':

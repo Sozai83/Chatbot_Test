@@ -10,10 +10,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
 
-from init.init_db import init_db
-init_db()
-
-
 conversation = ""
 question = ""
 location = ""
@@ -22,8 +18,15 @@ longitude = ""
 weather_type = ""
 date = ""
 
+
+from init.init_db import init_db
+init_db()
+
 from mistyping import train_mistype
 train_mistype()
+
+from training import train_greeing
+train_greeing()
 
 from bot.conversation import full_conversation
 @app.route('/askWeacher', methods=['POST'])
@@ -37,6 +40,7 @@ def ask_weacher():
         longitude = request.args.get('longitude') if request.args.get('longitude') else ""
         weather_type = request.args.get('weather_type') if request.args.get('weather_type') else ""
         date = request.args.get('date') if request.args.get('date') else ""
+        multilocation = request.args.get('multilocation') if request.args.get('multilocation') else ""
 
         response_json = full_conversation(temp_input, 
                                             conversation, 
@@ -45,15 +49,13 @@ def ask_weacher():
                                             latitude,
                                             longitude,
                                             weather_type,
-                                            date )
+                                            date,
+                                            multilocation)
         
         response = jsonify(response_json)
         response.headers.add('Access-Control-Allow-Origin', '*')
 
-        if response:
-            return response
-        else:
-            return 'Something went wrong. Try again.'
+        return response
 
     except(KeyboardInterrupt, EOFError, SystemExit):
         raise Exception('Something went wrong. Please refresh browser.')

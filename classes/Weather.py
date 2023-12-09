@@ -214,7 +214,8 @@ class Weather:
                             'max_temp': temp_weather.max_temp,
                             'humidity': temp_weather.humidity,
                             'icon': temp_weather.icon,
-                            'pop': temp_weather.pop
+                            'pop': temp_weather.pop,
+                            'location': temp_weather.location.capitalize()
                         })
 
 
@@ -237,13 +238,13 @@ class Weather:
                             'weather': x['weather'][0]['main'],
                             'humidity': x['humidity'],
                             'pop': x['pop'],
-                            'icon': x['weather'][0]['icon']
+                            'icon': x['weather'][0]['icon'],
+                            'location': self.location.capitalize()
                         } 
                         ,weather_forecast[0:])
 
                     self.weather_next_8days = list(weather_next_8days)
                     
-                    print('add weather')
                     # Store the data in DB
                     for temp_weather_forecast in self.weather_next_8days:
 

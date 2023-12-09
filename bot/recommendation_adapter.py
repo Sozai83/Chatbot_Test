@@ -13,8 +13,9 @@ class AskWeather(LogicAdapter):
 
         must_words = ['recommend']
         any_words = ['which','location', 'where']
+        input_list = re.sub('[.,;!?]','', str(statement).lower()).split()
 
-        if all(x in statement.text.lower().split() for x in must_words) and any(x in statement.text.lower().split() for x in any_words):
+        if all(x in input_list for x in must_words) and any(x in input_list for x in any_words):
             process = True
         else:
             process = False
