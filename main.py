@@ -23,11 +23,11 @@ from init.init_db import init_db
 # If no weather is retrieved wihtin 24 hours for locations in the itenerary, retireve weather and save it in the database
 init_db()
 
-from mistyping import train_mistype
+from training_files.mistyping import train_mistype
 # List training Weacher for mistyped keywords
 train_mistype()
 
-from training import train_greeing
+from training_files.training import train_greeing
 # List training Weacher for greetings
 train_greeing()
 

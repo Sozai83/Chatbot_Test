@@ -221,8 +221,8 @@ def full_conversation(temp_input,
 
             response_json = response_generator(response)
     
-    # Return API reseponse
-    return response_json
+        # Return API reseponse
+        return response_json
 
 
     ###############################################################################
@@ -330,7 +330,7 @@ def full_conversation(temp_input,
         #########################################################
         # If the weather type was asked in the last converstaion#
         ##########################################################
-        
+
         elif (question == "weather_type" or question == "date") and location and latitude and longitude and not multilocation:
 
             temp_weather_type = "2" if question == "date" else temp_input
@@ -371,8 +371,8 @@ def full_conversation(temp_input,
             response_json = response_generator(response, response_type=response_type)
 
 
-    # Return API reseponse
-    return response_json
+        # Return API reseponse
+        return response_json
 
 
     else:
