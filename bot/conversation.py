@@ -216,7 +216,7 @@ def full_conversation(temp_input,
         # If this is continuous conversation and no location/weather related keywords, response back with the bot generated reseponse #
         ###############################################################################################################################
         elif bot_input.lower() not in quit_words:
-            bot_output = bot.get_response(bot_input)
+            bot_output = bot.get_response(bot_input.lower())
             response = str(bot_output)
 
             response_json = response_generator(response)

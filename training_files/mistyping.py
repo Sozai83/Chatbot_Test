@@ -50,10 +50,12 @@ for forecast_mistype in forecast_mistypes:
     question = f'what is the {forecast_mistype} in'
     question2 = f'what\'s the {forecast_mistype} in'
     question3 = f'{forecast_mistype} in'
+    question4 = f'{forecast_mistype}?'
 
     convo_forecast_mistypes.extend((forecast_mistype, response,
                                     question,response,question2,
-                                    response,question3,response))
+                                    response,question3,response,
+                                    question4, response))
 
 for recommend_mistype in recommend_mistypes:
     response = '''
