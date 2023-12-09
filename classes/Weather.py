@@ -25,11 +25,10 @@ class Weather:
         self.datetime_7days_after = (datetime.utcnow() + timedelta(days=7)).strftime('%Y-%m-%d')
         self.datetime_current_date = datetime.utcnow().strftime('%Y-%m-%d')
 
-    def generate_map(self):
-        self.map = f'{map_url}?key={map_api_key}&q={self.latitude},{self.longitude}&zoom=7'
-        return self.map
     
-    # Get current weather for the location
+    ###################################
+    # Function - Check current weather#
+    ####################################
     def check_current_weather(self):
 
         try:
@@ -100,7 +99,9 @@ class Weather:
             else:
                 raise Exception (f'Filed to retrieve current weather. Please try again. Error:{resp.status_code}')
 
-    # Get weather for the location on a specific date
+    #########################################################
+    # Function - Check weather for a specific date in a week#
+    #########################################################
     def check_weather_date(self, date):
 
         try:
@@ -187,7 +188,9 @@ class Weather:
             else:
                 raise Exception (f'Filed to retrieve current weather. Please try again. Error:{resp.status_code}')
 
-    # Get 8 days weather forecast for the location
+    ##################################
+    # Function - Check 8days forecast#
+    ##################################
     def check_weather_forecast(self, temp_itinerary=False):
 
         try:
@@ -271,7 +274,9 @@ class Weather:
 
 
 
-
+    #################################################################
+    # Function - Check weather depending on the weather_type passeed#
+    #################################################################
     def search_weather(self, weather_type, date=None):
         temp_weather_type = int(weather_type)
 

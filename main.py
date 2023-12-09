@@ -20,18 +20,22 @@ date = ""
 
 
 from init.init_db import init_db
+# If no weather is retrieved wihtin 24 hours for locations in the itenerary, retireve weather and save it in the database
 init_db()
 
 from mistyping import train_mistype
+# List training Weacher for mistyped keywords
 train_mistype()
 
 from training import train_greeing
+# List training Weacher for greetings
 train_greeing()
 
 from bot.conversation import full_conversation
 @app.route('/askWeacher', methods=['POST'])
 def ask_weacher():
     try:
+        # Check the API attiributes and assign value if there is one
         temp_input = request.args.get('input') if request.args.get('input') else ""
         conversation = request.args.get('conversation') if request.args.get('conversation') else ""
         question = request.args.get('question') if request.args.get('question') else ""
@@ -42,6 +46,7 @@ def ask_weacher():
         date = request.args.get('date') if request.args.get('date') else ""
         multilocation = request.args.get('multilocation') if request.args.get('multilocation') else ""
 
+        # Run full_converstaion function to retrieve appropreate reseponse for the input
         response_json = full_conversation(temp_input, 
                                             conversation, 
                                             question, 

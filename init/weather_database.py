@@ -1,12 +1,11 @@
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
-import pandas as pd
-import numpy as np
 from datetime import datetime
 from __main__ import db, app
 
 
+# Set weather table
 class WeatherDB(db.Model):
     __tablename__ = 'weather'
     weather_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -23,7 +22,7 @@ class WeatherDB(db.Model):
     pop = db.Column(db.Text, nullable=True)
 
 
-
+# Set location table
 class LocationDB(db.Model):
     __tablename__ = 'location'
     location = db.Column(db.Text, primary_key=True)
@@ -31,10 +30,13 @@ class LocationDB(db.Model):
     longitude = db.Column(db.Float)
     country = db.Column(db.Text)
 
+#Create database
 def create_db():
     with app.app_context():
         db.create_all()
 
+
+# Function - Add weather data in weather table
 def add_weather(location, date, desc, min_temp, max_temp, humidity, icon, itinerary=False, cur_temp=None, pop=None):
     
     temp_weather = WeatherDB(
@@ -54,7 +56,7 @@ def add_weather(location, date, desc, min_temp, max_temp, humidity, icon, itiner
     db.session.commit()
 
 
-
+# Function - Add location data in weather table
 def add_location(location, latitude, longitude, country='UK'):
 
     temp_location = LocationDB(
