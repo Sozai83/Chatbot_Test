@@ -31,13 +31,14 @@ class AskWeather(LogicAdapter):
         input_list = re.sub('[.,;!?]','', str(input_statement).lower()).split()
 
         # If tomorrow is included in the input_list, date = tomorrow. Otherwise, it's today
-        date =  'tommorrow' if any(x in input_list for x in ['tomorrow']) else 'today'
+        date =  'tomorrow' if any(x in input_list for x in ['tomorrow']) else 'today'
 
         today_date = datetime.utcnow().strftime('%Y-%m-%d')
         tomorrow_date = (datetime.utcnow() + timedelta(days=1)).strftime('%Y-%m-%d')
 
         # If the user is asking recommendation for tomorrow
         if date == 'tomorrow':
+            print(tomorrow_date)
             # Get location that is Clear weather tomorrow
             clear_weathers = db.session.query(WeatherDB).filter(
                 WeatherDB.created_timestamp >= datetime.utcnow() - timedelta(hours=24),
@@ -64,12 +65,14 @@ class AskWeather(LogicAdapter):
                 if len(cloud_weathers) > 0:
                     recommend_locations = cloud_weathers
                     weather_reason = 'there is no sunny locations but these locations are not rainy'
+                    print(recommend_locations)
                 
                 else:
                     recommend_locations = False
 
 
         else:
+            print(date)
             # Get location that is Clear weather today
             clear_weathers = db.session.query(WeatherDB).filter(
                 WeatherDB.created_timestamp >= datetime.utcnow() - timedelta(hours=24),
@@ -95,6 +98,7 @@ class AskWeather(LogicAdapter):
                 if len(cloud_weathers) > 0:
                     recommend_locations = cloud_weathers
                     weather_reason = 'there is no sunny locations but these locations are not rainy'
+                    print(recommend_locations)
                 
                 else:
                     recommend_locations = False

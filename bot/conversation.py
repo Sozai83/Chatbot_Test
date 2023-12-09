@@ -359,6 +359,8 @@ def full_conversation(temp_input,
                                                         date=date if date else '', 
                                                         current_date=temp_weather.datetime_current_date, 
                                                         date_7days=temp_weather.datetime_7days_after)
+                    
+                    return response_json
 
             # If something is wrong, start over
             else:
