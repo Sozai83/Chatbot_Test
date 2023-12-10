@@ -7,8 +7,6 @@ from __main__ import db
 
 # API Key for geocode_url
 geocode_api_key = os.environ.get('GoogleMapAPIKey')
-# API Key for map_url
-map_api_key = os.environ.get('GoogleMapAPIKeyLimited')
 
 # Google map API - Retrieve longitude and latitude based on location
 geocode_url = 'https://maps.googleapis.com/maps/api/geocode/json?address='
