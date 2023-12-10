@@ -64,9 +64,9 @@ for recommend_mistype in recommend_mistypes:
         Hint: Where do you recommend to go today?
     '''
 
-    question = f'Where do you {recommend_mistype}'
-    question2 = f'Which location do you {recommend_mistype}'
-    question3 = f'What do you {recommend_mistype}'
+    question = f'where do you {recommend_mistype}'
+    question2 = f'which location do you {recommend_mistype}'
+    question3 = f'what do you {recommend_mistype}'
 
     convo_forecast_mistypes.extend((recommend_mistype, response,
                                     question,response,question2,
