@@ -33,3 +33,33 @@ Sample: Where do you recommend to go tomorrow?
 #### 3. Ask random questions
 Weacher is also trained to be able to respond for random queries.
 
+
+### Folder structure - What is stored where?
+#### Backend
+main.py - Main program to run the application
+
+**bot**
+- bot.py: Initializes the chatbot
+- converstaion.py: Contains functions to navigate the converstaion flow
+- recommendation_adapter.py: Contains logical adapter for recommendation of locations
+
+**classes**
+- Geocode.py: Contains Geocode class along with geocode related functions
+- Weather.py: Contains Weather class along with searching weather related functions
+
+**init**
+- init_db.py: Initialize database
+- locations.py: Contains locations dictionary storing locations in the itenerary
+- weather_database.py: Contains WeatherDB and LocationDB classes and functions to add data in those tables
+
+**training_files**
+- general_training.py: Contains corpus training
+- mistyping.py: Contains function to list train chatbot for mistyping
+- training.py: Contains function to list train chatbot with greetings
+
+**database**
+- weather_app.db: Contains location and weather data
+
+#### Frontend
+**weather_chatbot**
+Frontend application built with Next.js
