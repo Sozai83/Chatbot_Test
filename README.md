@@ -8,10 +8,11 @@ Weacher will assist you in checking the weather conditions for various locations
 ### How to install and run Weacher?
 1. Clone this repogitry. Run the following command.    
   _git clone https://github.com/Sozai83/Weacher.git_
-2. Run the main.py program    
+2. Run the main.py program
+   _py -m venv env_  
    _env\scripts\activate  
    py main.py_
-3. Run the frontend application in weather_chatbot repogitory    
+4. Run the frontend application in weather_chatbot repogitory    
    _cd .\weather_chatbot\_  
    _npm install_  
    _npm run dev_  
