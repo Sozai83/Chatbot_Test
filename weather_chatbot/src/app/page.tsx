@@ -139,7 +139,7 @@ export default function Home() {
         temp_response = test.response
         responseJSX = (
           <>
-            {temp_response.map(weatherData => {
+            {temp_response.map((weatherData: { cur_weather: any; cur_max_temp: any; cur_min_temp: any; cur_humidity: any; cur_date: any; pop: any; location: any }) => {
               weather_desc = weatherData.cur_weather
               max_temp = weatherData.cur_max_temp
               min_temp = weatherData.cur_min_temp
@@ -162,7 +162,7 @@ export default function Home() {
         temp_response = test.response
         responseJSX = (
           <>
-            {temp_response.map(weatherData => {
+            {temp_response.map((weatherData: { cur_weather: any; cur_temp: any; cur_max_temp: any; cur_min_temp: any; cur_humidity: any; cur_date: any; location: any }) => {
               weather_desc = weatherData.cur_weather
               cur_temp = weatherData.cur_temp
               max_temp = weatherData.cur_max_temp
@@ -185,7 +185,7 @@ export default function Home() {
         temp_response = test.response
         responseJSX = (
           <>
-            {temp_response.map(forecastData => {
+            {temp_response.map((forecastData: any[]) => {
               temp_location = forecastData[0].location
               return (
                 <>
@@ -193,7 +193,7 @@ export default function Home() {
                   <table className="forecast-table">
                     <tbody className="forecast">
                       <tr className="forecast-separator">
-                        {forecastData.map(weatherData => {
+                        {forecastData.map((weatherData: { weather: any; max_temp: any; min_temp: any; date: string; icon: string }) => {
                           weather_desc = weatherData.weather
                           max_temp = weatherData.max_temp
                           min_temp = weatherData.min_temp
