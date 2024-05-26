@@ -6,6 +6,9 @@ Weacher will assist you in checking the weather conditions for various locations
 ![Weacher Sample](https://github.com/Sozai83/Weacher/assets/58994580/802a4a7b-1339-4f0e-8fa8-cc9b4b455a6e)
 
 ### How to install and run Weacher?
+
+Prerequisite: You need to use Python version > 3.7 to run this application as Chattebot only supports older versons.
+
 1. Clone this repogitry. Run the following command.    
   _git clone https://github.com/Sozai83/Weacher.git_  
 2. Run the main.py program  
