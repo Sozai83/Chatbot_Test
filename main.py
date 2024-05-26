@@ -4,7 +4,7 @@ from sqlalchemy.sql import text
 
 
 app = Flask(__name__)
-db_name = r'./database/weather_app.db' #replace with your file path
+db_name = './database/weather_app.db' #replace with your file path
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_name
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
